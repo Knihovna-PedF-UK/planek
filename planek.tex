@@ -1,0 +1,415 @@
+% \documentclass[landscape]{article}
+\documentclass[]{article}
+\usepackage{fontspec}
+\usepackage[czech]{babel}
+\setmainfont{TeX Gyre Heros}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{longtable}
+\pagestyle{empty}
+
+\usepackage{tikz}
+
+
+% --------------------------------------------------
+% Vodorovný regál
+%
+% #1 = číslo
+% #2 = x
+% #3 = y
+% #4 = délka v gridových jednotkách
+% --------------------------------------------------
+
+\newcommand\regal[4]{%
+  \draw[fill=gray!20]
+    (#2,#3) rectangle ++(#4,1);
+  \node [
+    % circle,
+    % fill=black,
+    % text=white,
+    % inner sep=2pt
+    ]  at (#2+.5*#4,#3+.5) {\textbf{#1}};
+}
+
+% --------------------------------------------------
+% Svislý regál
+%
+% #1 = číslo
+% #2 = x
+% #3 = y
+% #4 = délka v gridových jednotkách
+% --------------------------------------------------
+
+\newcommand\regalv[4]{%
+  \draw[fill=gray!20]
+    (#2,#3) rectangle ++(1,#4);
+    \node [
+    % circle,
+    % fill=black,
+    % text=white,
+    % inner sep=2pt
+    ]  at (#2+.5,#3+.5*#4) {\textbf{#1}};
+}
+
+\newcommand\cisloregalu[1]{%
+  \def\aktualniregal{#1}%
+}
+
+\makeatletter
+
+\newcommand\nadpis[1]{%
+  \gdef\aktualninadpis{#1}%
+  \ifx\aktualniregal\@empty%
+    \global\let\aktualniregal\predeslyregal%
+  \fi%
+}
+
+\makeatother
+
+\newcommand\radek[3]{%
+  \aktualniregal &
+  \aktualninadpis &
+  #1 &
+  #2
+  \tabularnewline
+  \let\predeslyregal\aktualniregal%
+  \gdef\aktualniregal{}%
+  \gdef\aktualninadpis{}%
+}
+
+
+\begin{document}
+
+\parindent=0pt
+
+\def\step{8mm}
+
+
+
+\begin{center}
+  \centering
+
+{\Huge\bfseries Orientační plánek velké studovny}
+
+\vfill
+
+\begin{tikzpicture}[
+  x=\step,
+  y=\step
+]
+
+  \draw[step=\step,gray!15] (0,0) grid (12,26);
+  \regal{1}{8}{25}{4}
+  \regal{2}{8}{22}{4}
+  \regal{3}{8}{21}{4}
+  \regal{4}{8}{18}{4}
+  \regal{5}{8}{17}{4}
+  \regal{6}{8}{14}{4}
+  \regal{7}{8}{13}{4}
+  \regal{8}{8}{8}{4}
+  \regal{9}{8}{7}{4}
+  \regal{10}{8}{4}{4}
+  \regal{11}{8}{3}{4}
+  \regal{12}{8}{0}{4}
+  \regalv{13}{0}{13}{3}
+  \regalv{14}{0}{18}{3}
+
+  % pomocný grid
+
+  % vodorovné regály
+  % \regal{1}{1}{7}{4}
+  % \regal{2}{1}{5}{4}
+  % \regal{3}{1}{3}{4}
+
+  % další vodorovné regály
+  % \regal{4}{7}{7}{4}
+  % \regal{5}{7}{5}{4}
+  % \regal{6}{7}{3}{4}
+
+  % svislé regály
+  % \regalv{7}{5}{1}{2}
+  % \regalv{8}{7}{1}{2}
+
+\end{tikzpicture}
+\end{center}
+
+
+\clearpage
+\begin{longtable}{rllp{16em}}
+\cisloregalu{1}
+\nadpis{Biologie}
+\radek{BIOL 1}{Obecná biologie}{}
+\radek{BIOL 2}{Botanika}{}
+\radek{BIOL 3}{Zoologie}{}
+\radek{BIOL 4}{Environmentální studia}{}
+\radek{BIOL 5}{Mikrobiologie a genetika}{}
+\radek{BIOL 6}{Biologie člověka}{}
+\radek{GEOL}{Geologie}{}
+\radek{DID BIOL}{Didaktika biologie}{}
+\radek{PŘÍR ZŠ}{Učebnice pro ZŠ Přírodověda}{}
+\radek{BIOL SŠ}{Učebnice pro SŠ Biologie}{}
+
+\cisloregalu{2}
+\nadpis{Chemie}
+\radek{CHEM}{Chemie}{}
+\radek{DID CHEM}{Didaktika chemie}{}
+\radek{CHEM ZŠ}{Učebnice pro ZŠ Chemie}{}
+\radek{CHEM SŠ}{Učebnice pro SŠ Chemie}{}
+\nadpis{Fyzika}
+\radek{FYZ}{Fyzika}{}
+\radek{FYZ ZŠ}{Učebnice pro ZŠ Fyzika}{}
+\radek{FYZ SŠ}{Učebnice pro SŠ Fyzika}{}
+\nadpis{Zeměpis}
+\radek{ZEM}{Zeměpis}{}
+\radek{ZEM ZŠ}{Učebnice pro ZŠ Zeměpis}{}
+\radek{ZEM SŠ}{Učebnice pro SŠ Zeměpis}{}
+
+\cisloregalu{3}
+\nadpis{Matematika}
+\radek{MAT}{Matematika}{}
+\radek{DID MAT}{Didaktika matematiky}{}
+\nadpis{Informatika}
+\radek{IKM}{Informatika}{}
+
+\cisloregalu{4}
+\nadpis{Matematika}
+\radek{MAT ZŠ}{Učebnice pro ZŠ Matematika}{}
+\radek{MAT POM ZŠ}{Pomůcky pro ZŠ Matematika}{}
+\radek{MAT SŠ}{Učebnice pro SŠ Matematika}{}
+\nadpis{Informatika}
+\radek{IKM ZŠ}{Učebnice pro ZŠ Informatika, IT knihy pro děti}{}
+
+\cisloregalu{5}
+\nadpis{Výtvarná výchova}
+\radek{VV 1}{Umění a design}{}
+\radek{VV 2}{České umění}{}
+\radek{VV 3}{Výtvarné techniky}{}
+\radek{VV 4}{Umění spolupráce}{}
+\radek{VV 5}{Světové umění}{}
+\radek{VV ZŠ}{Učebnice pro ZŠ Výtvarná výchova}{}
+\radek{VV SŠ}{Učebnice pro SŠ Výtvarná výchova}{}
+
+\cisloregalu{6}
+\nadpis{Výtvarná výchova}
+\radek{VV 6}{Architektura a urbanismus}{}
+\radek{VV 7}{Dějiny umění}{}
+\radek{DID VV}{Didaktika výtvarné výchovy}{}
+
+\cisloregalu{7}
+\nadpis{Hudební výchova}
+\radek{HV 1}{Hudba}{}
+\radek{HV 2}{Zpěv a sbory}{}
+\radek{HV 3}{Hudební nástroje}{}
+\radek{HV 4}{Hudební teorie}{}
+\radek{DID HV}{Didaktika hudební výchovy}{}
+\radek{HV ZŠ}{Učebnice pro ZŠ Hudební výchova}{}
+\radek{HV SŠ}{Učebnice pro SŠ Hudební výchova}{}
+
+\cisloregalu{8}
+\nadpis{Tělesná výchova}
+\radek{TV}{Tělesná výchova a sport}{}
+\radek{DID TV}{Didaktika tělesné výchovy}{}
+\nadpis{Výchova ke zdraví}
+\radek{ZDRAV}{Výchova ke zdraví}{}
+
+\cisloregalu{9}
+\nadpis{Společenské vědy}
+\radek{EKON}{Ekonomie}{}
+\radek{POLIT}{Politologie}{}
+\radek{NÁB}{Náboženství}{}
+\radek{ZSV}{Základy společenských věd}{}
+\radek{DID ZSV}{Didaktika základů společenských věd}{}
+\nadpis{Informace a média}
+\radek{INFO}{Informace, média}{}
+
+\cisloregalu{10}
+\nadpis{ZSV, občanská výchova}
+\radek{OV ZŠ}{Učebnice pro ZŠ Člověk a jeho svět}{}
+\radek{OV SŠ}{Učebnice pro SŠ Občanská výchova}{}
+
+\cisloregalu{11}
+\nadpis{Filozofie}
+\radek{FIL 1}{Úvod do filozofie, etika}{}
+\radek{FIL 2}{Dějiny filozofie}{}
+\radek{FIL 3}{Česká filozofie}{}
+\radek{FIL 4}{Světová filozofie}{}
+
+\cisloregalu{12}
+\nadpis{Sociologie}
+\radek{SOCIOL 1}{Obecná sociologie}{}
+\radek{SOCIOL 2}{Sociologické teorie}{}
+\radek{SOCIOL 3}{Empirický výzkum – sociologie}{}
+\radek{SOCIOL 4}{Sociologie vzdělávání}{}
+\nadpis{Antropologie}
+\radek{ANTROP}{Antropologie}{}
+\nadpis{Psaní odborných textů}
+\radek{ODB 1}{Psaní odborných textů}{}
+\radek{ODB 2}{Metodologie výzkumu}{}
+
+\cisloregalu{13}
+\nadpis{Francouzština}
+\radek{FR 1}{Jazykověda}{}
+\radek{FR 2}{Literatura a literární věda}{}
+\radek{FR 3}{Reálie}{}
+\radek{FR 4}{Slovníky}{}
+\radek{FR 5}{Příprava na zkoušky}{}
+\radek{DID FR}{Didaktika francouzštiny}{}
+\radek{FR ZŠ}{Učebnice pro ZŠ Francouzský jazyk}{}
+\radek{FR SŠ}{Učebnice pro SŠ Francouzský jazyk}{}
+
+\cisloregalu{14}
+\nadpis{Latina}
+\radek{LAT}{Latina}{}
+\end{longtable}
+
+\clearpage
+
+\begin{center}
+  \centering
+
+{\Huge\bfseries Orientační plánek malé studovny}
+
+\vfill
+
+\begin{tikzpicture}[
+  x=\step,
+  y=\step,
+  yscale=-1
+]
+
+  \draw[step=\step,gray!15] (0,0) grid (12,18);
+  \regal{3}{1}{0}{11}
+  \regalv{2}{0}{2}{3}
+  \regal{1}{0}{6}{4}
+  \regal{7}{0}{7}{4}
+  \regal{4}{8}{6}{4}
+  \regal{6}{8}{7}{4}
+  \regalv{5}{5}{2}{5}
+  \regalv{5}{6}{2}{5}
+  \regal{9}{2}{10}{4}
+  \regal{10}{2}{11}{4}
+  \regal{8}{8}{10}{4}
+  \regal{11}{8}{11}{4}
+  \regal{12}{5}{14}{7}
+  \regal{13}{5}{15}{7}
+  \regal{15}{0}{18}{6}
+  \regal{14}{7}{18}{5}
+
+\end{tikzpicture}
+\end{center}
+
+\clearpage
+\begin{longtable}{rllp{16em}}
+\cisloregalu{1}
+\nadpis{Speciální pedagogika}
+\radek{SPPG 1}{Speciální pedagogika a inkluze}{}
+\radek{SPPG 2}{Psychopedie (mentální postižení)}{}
+\radek{SPPG 3}{Tyflopedie (zrakové postižení)}{}
+\radek{SPPG 4}{Surdopedie (sluchové postižení)}{}
+\radek{SPPG 5}{Specifické poruchy učení}{}
+\cisloregalu{2}
+\nadpis{Speciální pedagogika}
+\radek{SPPG 6}{Narušená komunikační schopnost, logopedie}{}
+\radek{SPPG 7}{Somatopedie (tělesné postižení)}{}
+\radek{SPPG 8}{Etopedie (poruchy chování)}{}
+\radek{SPPG 9}{Neurodivergence (autismus, ADHD)}{}
+\radek{SPPG 10}{Sociální pedagogika (podpora, intervence)}{}
+\radek{SPPG 11}{Kombinovaná postižení}{}
+\radek{SPEC Š}{Učebnice a pomůcky pro speciální školy}{}
+\cisloregalu{3}
+\nadpis{Pedagogika}
+\radek{PED 1}{Obecná pedagogika}{}
+\radek{PED 2}{Obecná didaktika}{}
+\radek{PED 3}{Pedagogické slovníky a encyklopedie}{}
+\radek{PED 4}{Pedagogičtí pracovníci}{}
+\radek{PED 5}{Komunikace ve škole, komunikace}{}
+\radek{PED 6}{Předškolní a mimoškolní pedagogika}{}
+\radek{MŠ POM}{MŠ – Pomůcky}{}
+\radek{PED 7}{Vzdělávání dospělých}{}
+\radek{PED 8}{Řízení a organizace školství, management}{}
+\radek{PED 9}{Srovnávací pedagogika}{}
+\radek{PED 10}{Dějiny pedagogiky}{}
+\radek{PED 11}{Komeniologie}{}
+\cisloregalu{4}
+\nadpis{Psychologie}
+\radek{PSYCH 1}{Obecná psychologie}{}
+\radek{PSYCH 2}{Vývojová psychologie}{}
+\radek{PSYCH 3}{Dějiny psychologie}{}
+\radek{PSYCH 4}{Sociální psychologie}{}
+\radek{PSYCH 5}{Psychologie osobnosti}{}
+\radek{PSYCH 6}{Psychopatologie, klinická psychologie}{}
+\radek{PSYCH 7}{Poradenství, psychoterapie}{}
+\cisloregalu{5}
+\nadpis{Psychologie}
+\radek{PSYCH 7}{Poradenství, psychoterapie}{}
+\radek{PSYCH 8}{Pedagogická psychologie}{}
+\radek{PSYCH 9}{Psychologie – Ostatní}{}
+\radek{PSYCH 10}{Řada Klasici psychologie}{}
+\nadpis{Osobní rozvoj}
+\radek{ROZ}{Osobní rozvoj}{}
+\cisloregalu{6}
+\nadpis{Český jazyk}
+\radek{ČJ ZŠ}{Učebnice pro ZŠ Český jazyk}{}
+\radek{ČJ POM ZŠ}{Pomůcky pro ZŠ Český jazyk}{}
+\radek{ČJ SŠ}{Učebnice pro SŠ Český jazyk}{}
+\cisloregalu{7}
+\nadpis{Literatura}
+\radek{LIT ZŠ}{Učebnice pro ZŠ Literární výchova}{}
+\radek{ČÍT ZŠ}{Slabikáře, čítanky pro ZŠ}{}
+\radek{LIT SŠ}{Učebnice pro SŠ Literatura}{}
+\cisloregalu{8}
+\nadpis{Český jazyk}
+\radek{ČJ 1}{Mluvnice}{}
+\radek{ČJ 2}{Pravopis}{}
+\radek{ČJ 3}{Jazykověda}{}
+\radek{ČJ 4}{Stylistika}{}
+\radek{ČJ 5}{Slovníky a příručky}{}
+\radek{DID ČJ}{Didaktika českého jazyka}{}
+\cisloregalu{9}
+\nadpis{Literatura}
+\radek{LIT 1}{Teorie literatury}{}
+\radek{LIT 2}{Čtenářství}{}
+\radek{LIT 3}{Dějiny literatury}{}
+\radek{LIT 4}{Literární encyklopedie, slovníky}{}
+\radek{LIT 5}{Teorie literatury pro děti a mládež}{}
+\radek{DID LIT}{Didaktika literatury}{}
+\nadpis{Dramatická výchova}
+\radek{DV 1}{Dramatická výchova}{}
+\radek{DV 2}{Divadlo, film}{}
+\cisloregalu{10}
+\nadpis{Dějepis}
+\radek{DĚJ ZŠ}{Učebnice pro ZŠ Dějepis}{}
+\radek{DĚJ SŠ}{Učebnice pro SŠ Dějepis}{}
+\radek{DĚJ 1}{Světové dějiny}{}
+\cisloregalu{11}
+\nadpis{Dějepis}
+\radek{DĚJ 1}{Světové dějiny}{}
+\radek{DĚJ 2}{České dějiny}{}
+\radek{DĚJ 3}{Encyklopedie dějin}{}
+\radek{DĚJ 4}{Dějiny UK a PedF}{}
+\radek{DĚJ 5}{Pomocné vědy historické}{}
+\radek{DID DĚJ}{Didaktika dějepisu}{}
+\cisloregalu{12}
+\nadpis{Beletrie}
+\radek{BEL 1}{Próza}{}
+\cisloregalu{13}
+\nadpis{Beletrie}
+\radek{BEL 1}{Próza}{}
+\radek{BEL 2}{Poezie}{}
+\radek{BEL 3}{Drama, libreta}{}
+\cisloregalu{14}
+\nadpis{Komiksy}
+\radek{BEL 4}{Komiksy}{}
+\nadpis{Literatura pro děti a mládež}
+\radek{DĚT LIT 1}{Próza pro děti a mládež}{}
+\cisloregalu{15}
+\nadpis{Literatura pro děti a mládež}
+\radek{DĚT LIT 1}{Próza pro děti a mládež}{}
+\radek{DĚT LIT 2}{Poezie pro děti a mládež}{}
+\radek{DĚT LIT 3}{Naučná literatura pro děti a mládež}{}
+\end{longtable}
+
+
+
+
+
+\end{document}
